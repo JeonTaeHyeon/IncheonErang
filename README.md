@@ -1,5 +1,7 @@
 ## 인천e랑 프로젝트!!
-![cylinder](https://capsule-render.vercel.app/api?type=cylinder&align=center&color=5ACBF3&text=인천e랑&fontAlignY=45&fontSize=40&fontColor=ffffff&height=150&desc=2023%20InnoThink%20MakerThon&descAlignY=70)
+<p align="center" >
+![cylinder](https://capsule-render.vercel.app/api?type=cylinder&color=5ACBF3&text=인천e랑&fontAlignY=45&fontSize=40&fontColor=ffffff&height=150&desc=2023%20InnoThink%20MakerThon&descAlignY=70)
+</p>
 ***
 본 프로젝트 ‘인천e랑’은 인천 관광 산업 진흥을 목적으로 하는 프로젝트입니다.
 
