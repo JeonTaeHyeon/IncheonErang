@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="cacheEnabled" value="false"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="TestboardDTO" type="com.bigdeal.incheonerang.testboard.dto.TestboardDTO"/>
+        <typeAlias alias="ReviewDTO" type="com.bigdeal.incheonerang.review.dto.ReviewDTO"/>
+        <typeAlias alias="MemberDTO" type="com.bigdeal.incheonerang.member.dto.MemberDTO"/>
+        <typeAlias alias="MatchingDTO" type="com.bigdeal.incheonerang.matching.dto.MatchingDTO"/>
+        <typeAlias alias="MatchingMemberDTO" type="com.bigdeal.incheonerang.matching.dto.MatchingMemberDTO"/>
+        <typeAlias alias="LocationDTO" type="com.bigdeal.incheonerang.matching.dto.LocationDTO"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="TestboardMapper.xml"/>
+        <mapper resource="ReviewMapper.xml"/>
+        <mapper resource="MemberMapper.xml"/>
+        <mapper resource="MatchingMapper.xml"/>
+    </mappers>
+</configuration>

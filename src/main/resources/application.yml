@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/orcl
+    username: C##BIGDEAL
+    password: BIGDEAL
+  web:
+    resources:
+      static-locations: classpath:/productimgs/
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+# ??? ??? ??? ??? ? ??? ?? ??
+image:
+  # WebConfig? ??
+  add-resource-locations: classpath:/static/productimgs/
+  add-resource-handler: /productimgs/**
+  # ProductService? ??
+  image-dir: src/main/resources/static/productimgs
+  image-url: http://localhost:8080/productimgs/
+
+
+mybatis:
+  mapper-locations: mybatis/mapper/*.xml
+  type-aliases-package: com.bigdeal.incheonerang
+  configuration:
+    map-underscore-to-camel-case: true

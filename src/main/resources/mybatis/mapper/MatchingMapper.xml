@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bigdeal.incheonerang.matching.dao.MatchingMapper">
+
+    <select id="selectLocationLast" resultType="MatchingDTO">
+        SELECT MATCHING_CODE
+        FROM MATCHING_TBL
+        ORDER BY MATCHING_CODE DESC
+    </select>
+
+    <select id="selectMatchingList" resultType="MatchingDTO">
+        SELECT *
+        FROM MATCHING_TBL
+        ORDER BY MATCHING_CODE ASC
+    </select>
+
+    <select id="selectMatchingByCode" resultType="MatchingDTO">
+        SELECT *
+        FROM MATCHING_TBL
+        WHERE MATCHING_CODE = #{matchingCode}
+    </select>
+
+    <insert id="insertMatching" parameterType="MatchingDTO">
+        INSERT INTO MATCHING_TBL
+        VALUES
+            (
+                SEQ_MATCHING.NEXTVAL,
+                #{matchingTitle},
+                #{matchingContent},
+                #{matchingHashtag},
+                #{matchingMemberId},
+                SYSDATE,
+                'N',
+                #{matchingImg},
+                #{matchingMaxMember},
+                1,
+                #{matchingCategory},
+                'default'
+            )
+    </insert>
+
+    <update id="updateMatching">
+        UPDATE MATCHING_TBL
+        SET MATCHING_CODE = #{matchingCode},
+            MATCHING_TITLE = #{matchingTitle},
+            MATCHING_CONTENT = #{matchingContent},
+            MATCHING_HASHTAG = #{matchingHashtag}
+        WHERE MATCHING_CODE = #{matchingCode}
+    </update>
+
+    <delete id="deleteMatching">
+        DELETE FROM MATCHING_TBL
+        WHERE MATCHING_CODE = #{matchingCode}
+    </delete>
+
+<!-- 참여하기 버튼을 눌렀을 때   -->
+
+    <insert id="insertJoinMatching" parameterType="MatchingMemberDTO">
+        INSERT INTO MATCHING_MEMBER_TBL
+        VALUES
+            (
+             #{matchingCode},
+             #{memberId}
+            )
+    </insert>
+
+    <update id="updateJoinMatching">
+        UPDATE MATCHING_TBL
+        SET MATCHING_CURRENT_MEMBER = MATCHING_CURRENT_MEMBER + 1
+        WHERE MATCHING_CODE = #{matchingCode}
+    </update>
+
+    <update id="updateMatchingFinishYn">
+        UPDATE MATCHING_TBL
+        SET MATCHING_FINISH_YN =
+        CASE
+             WHEN MATCHING_MAX_MEMBER = MATCHING_CURRENT_MEMBER THEN 'Y'
+             ELSE 'N'
+        END
+    </update>
+
+    <select id="finishMatchingYn" resultType="String">
+        SELECT MATCHING_FINISH_YN
+          FROM MATCHING_TBL
+         WHERE MATCHING_CODE = #{matchingCode}
+    </select>
+
+<!--  신청 취소-->
+    <update id="minusCurrentMatchingMember" parameterType="MatchingMemberDTO">
+        UPDATE MATCHING_TBL
+        SET MATCHING_CURRENT_MEMBER = MATCHING_CURRENT_MEMBER - 1,
+            MATCHING_FINISH_YN = 'N'
+        WHERE MATCHING_CODE = #{matchingCode}
+    </update>
+
+    <delete id="deleteMatchingMember">
+        DELETE FROM MATCHING_MEMBER_TBL
+        WHERE MEMBER_ID= #{memberId}
+    </delete>
+
+    <!-- 장소 등록  -->
+    <select id="selectLocationList" resultType="LocationDTO">
+        SELECT *
+          FROM LOCATION_TBL
+    </select>
+
+    <update id="countLocation" parameterType="LocationDTO">
+        UPDATE LOCATION_TBL
+        SET MATCHING_CODE = #{matchingCode},
+            LOCATION_COUNT = LOCATION_COUNT + 1
+        WHERE LOCATION_NAME = #{locationName}
+    </update>
+
+    <insert id="insertLocation" parameterType="LocationDTO">
+        INSERT INTO LOCATION_TBL
+        VALUES
+        (
+            #{matchingCode},
+            SEQ_LOCATION.NEXTVAL,
+            #{locationName},
+            1
+        )
+    </insert>
+
+    <select id="selectLocationRank" resultType="LocationDTO">
+        SELECT LOCATION_NAME , LOCATION_COUNT
+        FROM LOCATION_TBL
+        ORDER BY LOCATION_COUNT DESC
+    </select>
+
+<!--검색기능-->
+
+    <select id="searchMatchingByCategory" resultType="MatchingDTO">
+        SELECT *
+          FROM MATCHING_TBL
+         WHERE MATCHING_CATEGORY LIKE '%'||#{category}||'%'
+    </select>
+
+    <select id="searchMatchingByTitle" resultType="MatchingDTO">
+        SELECT *
+        FROM MATCHING_TBL
+        WHERE MATCHING_Title LIKE '%'||#{title}||'%'
+    </select>
+
+    <select id="searchMatchingByHashtag" resultType="MatchingDTO">
+        SELECT *
+        FROM MATCHING_TBL
+        WHERE MATCHING_HASHTAG LIKE '%'||#{hashtag}||'%'
+    </select>
+
+    <select id="selectMatchingMemberByCode" resultType="MatchingMemberDTO">
+        SELECT *
+        FROM MATCHING_MEMBER_TBL
+        WHERE MATCHING_CODE = #{matchingCode}
+    </select>
+
+    <select id="selectMatchingListByMemberId" resultType="MatchingDTO">
+        SELECT *
+        FROM MATCHING_TBL
+        WHERE  MATCHING_MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="selectLocationListByMatchingCode" resultType="LocationDTO">
+        SELECT *
+          FROM LOCATION_TBL
+         WHERE MATCHING_CODE = #{matchingCode}
+    </select>
+
+
+    <select id="selectMatchingCodeForInsert" resultType="MatchingDTO">
+        SELECT *
+        FROM MATCHING_TBL
+        ORDER BY MATCHING_CODE DESC
+    </select>
+
+</mapper>
